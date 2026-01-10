@@ -18,7 +18,7 @@ export const currentUser: User = {
   id: 'usr-001',
   name: 'Dewi Kusuma',
   email: 'dewi@apotek.com',
-  role: 'kasir',
+  role: 'superadmin',
   branchId: 'br-001',
   branchName: 'Apotek Sehat Pusat',
 };

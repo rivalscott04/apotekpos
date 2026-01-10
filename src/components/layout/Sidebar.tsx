@@ -16,6 +16,8 @@ import {
   ChevronDown,
   ChevronRight,
   Menu,
+  ShieldAlert,
+  Eye,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -40,30 +42,40 @@ const navItems: NavItem[] = [
     title: 'POS',
     href: '/pos',
     icon: ShoppingCart,
-    roles: ['kasir', 'apoteker', 'manager', 'owner'],
+    roles: ['kasir', 'apoteker', 'manager', 'owner', 'superadmin'],
   },
   {
     title: 'Admin',
     href: '/admin',
     icon: LayoutDashboard,
-    roles: ['manager', 'owner', 'gudang'],
+    roles: ['manager', 'owner', 'gudang', 'superadmin'],
     children: [
-      { title: 'Produk', href: '/admin/products', icon: Package, roles: ['manager', 'owner'] },
-      { title: 'Inventori', href: '/admin/inventory', icon: Warehouse, roles: ['gudang', 'manager', 'owner'] },
-      { title: 'Pembelian', href: '/admin/purchasing', icon: FileText, roles: ['gudang', 'manager', 'owner'] },
-      { title: 'Promo', href: '/admin/promos', icon: TrendingUp, roles: ['manager', 'owner'] },
-      { title: 'Approval Center', href: '/admin/approvals', icon: CheckSquare, roles: ['manager', 'owner'] },
+      { title: 'Produk', href: '/admin/products', icon: Package, roles: ['manager', 'owner', 'superadmin'] },
+      { title: 'Inventori', href: '/admin/inventory', icon: Warehouse, roles: ['gudang', 'manager', 'owner', 'superadmin'] },
+      { title: 'Pembelian', href: '/admin/purchasing', icon: FileText, roles: ['gudang', 'manager', 'owner', 'superadmin'] },
+      { title: 'Promo', href: '/admin/promos', icon: TrendingUp, roles: ['manager', 'owner', 'superadmin'] },
+      { title: 'Approval Center', href: '/admin/approvals', icon: CheckSquare, roles: ['manager', 'owner', 'superadmin'] },
     ],
   },
   {
     title: 'Owner',
     href: '/owner',
     icon: BarChart3,
-    roles: ['owner'],
+    roles: ['owner', 'superadmin'],
     children: [
-      { title: 'Dashboard', href: '/owner', icon: LayoutDashboard, roles: ['owner'] },
-      { title: 'Laporan', href: '/owner/reports', icon: ClipboardList, roles: ['owner'] },
-      { title: 'Audit Log', href: '/owner/audit', icon: Shield, roles: ['owner'] },
+      { title: 'Dashboard', href: '/owner', icon: LayoutDashboard, roles: ['owner', 'superadmin'] },
+      { title: 'Analitik & AI', href: '/owner/analytics', icon: TrendingUp, roles: ['owner', 'superadmin'] },
+      { title: 'Laporan', href: '/owner/reports', icon: ClipboardList, roles: ['owner', 'superadmin'] },
+      { title: 'Audit Log', href: '/owner/audit', icon: Shield, roles: ['owner', 'superadmin'] },
+    ],
+  },
+  {
+    title: 'Superadmin',
+    href: '/superadmin',
+    icon: ShieldAlert,
+    roles: ['superadmin'],
+    children: [
+      { title: 'God View', href: '/superadmin', icon: Eye, roles: ['superadmin'] },
     ],
   },
 ];
@@ -157,7 +169,7 @@ export function Sidebar() {
                       {filteredChildren.map(child => {
                         const ChildIcon = child.icon;
                         const isChildActive = location.pathname === child.href;
-                        
+
                         return (
                           <NavLink
                             key={child.href}

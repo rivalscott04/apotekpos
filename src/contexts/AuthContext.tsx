@@ -20,6 +20,7 @@ const rolePermissions: Record<UserRole, string[]> = {
   gudang: ['/admin/inventory', '/admin/receiving', '/admin/transfers'],
   manager: ['/pos', '/admin', '/admin/*'],
   owner: ['/pos', '/admin', '/admin/*', '/owner', '/owner/*'],
+  superadmin: ['/pos', '/admin', '/admin/*', '/owner', '/owner/*', '/superadmin', '/superadmin/*'],
 };
 
 export function AuthProvider({ children }: { children: ReactNode }) {
