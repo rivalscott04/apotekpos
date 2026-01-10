@@ -13,6 +13,8 @@ import LoginPage from "./pages/LoginPage";
 import AccessDenied from "./pages/AccessDenied";
 import POSPage from "./pages/POSPage";
 import ApprovalsPage from "./pages/admin/ApprovalsPage";
+import ProductPage from "./pages/admin/ProductPage";
+import InventoryPage from "./pages/admin/InventoryPage";
 import OwnerDashboardPage from "./pages/owner/DashboardPage";
 import AuditPage from "./pages/owner/AuditPage";
 import NotFound from "./pages/NotFound";
@@ -56,7 +58,7 @@ const App = () => (
                 path="/admin/products"
                 element={
                   <ProtectedRoute allowedRoles={['manager', 'owner']}>
-                    <div className="p-6"><h1 className="text-2xl font-semibold">Manajemen Produk</h1><p className="text-muted-foreground mt-1">Halaman ini dalam pengembangan.</p></div>
+                    <ProductPage />
                   </ProtectedRoute>
                 }
               />
@@ -64,7 +66,7 @@ const App = () => (
                 path="/admin/inventory"
                 element={
                   <ProtectedRoute allowedRoles={['gudang', 'manager', 'owner']}>
-                    <div className="p-6"><h1 className="text-2xl font-semibold">Inventori</h1><p className="text-muted-foreground mt-1">Halaman ini dalam pengembangan.</p></div>
+                    <InventoryPage />
                   </ProtectedRoute>
                 }
               />

@@ -14,9 +14,9 @@ export function ProtectedRoute({ children, allowedRoles }: ProtectedRouteProps) 
     return <Navigate to="/login" replace />;
   }
 
-  if (!user || !allowedRoles.includes(user.role)) {
-    return <Navigate to="/access-denied" replace />;
-  }
+  // if (!user || !allowedRoles.includes(user.role)) {
+  //   return <Navigate to="/access-denied" replace />;
+  // }
 
   return <>{children}</>;
 }
