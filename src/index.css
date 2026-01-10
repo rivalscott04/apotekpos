@@ -1,0 +1,207 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Pharmacy POS Design System - Light Mode */
+    --background: 210 20% 98%;
+    --foreground: 220 20% 10%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 220 20% 10%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 20% 10%;
+
+    /* Primary: Teal/Emerald - Medical/Pharmacy association */
+    --primary: 168 76% 36%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Secondary: Warm neutral */
+    --secondary: 210 15% 95%;
+    --secondary-foreground: 220 20% 20%;
+
+    --muted: 210 15% 93%;
+    --muted-foreground: 220 10% 45%;
+
+    --accent: 168 60% 94%;
+    --accent-foreground: 168 76% 26%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* Success state */
+    --success: 142 71% 45%;
+    --success-foreground: 0 0% 100%;
+
+    /* Warning state */
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+
+    /* Info state */
+    --info: 217 91% 60%;
+    --info-foreground: 0 0% 100%;
+
+    --border: 210 15% 89%;
+    --input: 210 15% 89%;
+    --ring: 168 76% 36%;
+
+    --radius: 0.5rem;
+
+    /* POS specific tokens */
+    --pos-sidebar: 220 20% 14%;
+    --pos-sidebar-foreground: 210 20% 95%;
+    --pos-sidebar-accent: 220 20% 20%;
+    --pos-header: 0 0% 100%;
+    --pos-cart: 0 0% 100%;
+    --pos-action: 168 76% 36%;
+
+    /* Sidebar */
+    --sidebar-background: 220 20% 14%;
+    --sidebar-foreground: 210 20% 90%;
+    --sidebar-primary: 168 76% 46%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 20% 22%;
+    --sidebar-accent-foreground: 210 20% 95%;
+    --sidebar-border: 220 15% 25%;
+    --sidebar-ring: 168 76% 46%;
+  }
+
+  .dark {
+    --background: 220 20% 10%;
+    --foreground: 210 20% 95%;
+
+    --card: 220 20% 13%;
+    --card-foreground: 210 20% 95%;
+
+    --popover: 220 20% 13%;
+    --popover-foreground: 210 20% 95%;
+
+    --primary: 168 70% 45%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 220 15% 18%;
+    --secondary-foreground: 210 20% 90%;
+
+    --muted: 220 15% 20%;
+    --muted-foreground: 210 15% 55%;
+
+    --accent: 168 50% 20%;
+    --accent-foreground: 168 70% 70%;
+
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --success: 142 60% 40%;
+    --success-foreground: 0 0% 100%;
+
+    --warning: 38 80% 45%;
+    --warning-foreground: 0 0% 100%;
+
+    --info: 217 80% 55%;
+    --info-foreground: 0 0% 100%;
+
+    --border: 220 15% 22%;
+    --input: 220 15% 22%;
+    --ring: 168 70% 45%;
+
+    --pos-sidebar: 220 25% 8%;
+    --pos-sidebar-foreground: 210 20% 90%;
+    --pos-sidebar-accent: 220 20% 14%;
+    --pos-header: 220 20% 13%;
+    --pos-cart: 220 20% 13%;
+    --pos-action: 168 70% 45%;
+
+    --sidebar-background: 220 25% 8%;
+    --sidebar-foreground: 210 20% 85%;
+    --sidebar-primary: 168 70% 50%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 20% 16%;
+    --sidebar-accent-foreground: 210 20% 90%;
+    --sidebar-border: 220 15% 18%;
+    --sidebar-ring: 168 70% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  /* Focus visible for keyboard navigation */
+  :focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+}
+
+@layer components {
+  /* POS Action Button Styles */
+  .pos-btn-primary {
+    @apply bg-primary text-primary-foreground hover:bg-primary/90 font-semibold py-3 px-4 rounded-lg transition-all duration-150 active:scale-[0.98];
+  }
+
+  .pos-btn-secondary {
+    @apply bg-secondary text-secondary-foreground hover:bg-secondary/80 font-medium py-3 px-4 rounded-lg transition-all duration-150;
+  }
+
+  .pos-btn-action {
+    @apply bg-accent text-accent-foreground hover:bg-accent/80 font-semibold py-4 px-6 rounded-lg transition-all duration-150 text-base;
+  }
+
+  .pos-btn-danger {
+    @apply bg-destructive text-destructive-foreground hover:bg-destructive/90 font-medium py-3 px-4 rounded-lg transition-all duration-150;
+  }
+
+  /* Card variants */
+  .card-elevated {
+    @apply bg-card rounded-xl border shadow-sm;
+  }
+
+  .card-flat {
+    @apply bg-card rounded-lg border;
+  }
+
+  /* Status badges */
+  .status-success {
+    @apply bg-success/10 text-success border-success/20;
+  }
+
+  .status-warning {
+    @apply bg-warning/10 text-warning border-warning/20;
+  }
+
+  .status-danger {
+    @apply bg-destructive/10 text-destructive border-destructive/20;
+  }
+
+  .status-info {
+    @apply bg-info/10 text-info border-info/20;
+  }
+
+  /* Keyboard shortcut badge */
+  .kbd {
+    @apply inline-flex items-center justify-center px-1.5 py-0.5 text-xs font-mono font-medium bg-muted text-muted-foreground rounded border border-border/50;
+  }
+}
+
+@layer utilities {
+  /* Hide scrollbar but allow scrolling */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Smooth scroll */
+  .scroll-smooth {
+    scroll-behavior: smooth;
+  }
+}
