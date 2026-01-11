@@ -20,7 +20,27 @@ import {
     Cell,
     Legend,
 } from "recharts";
-import { Brain, TrendingUp, AlertTriangle, Package, DollarSign, Activity, Calendar, Download, Eye, ArrowRight, ExternalLink, Sparkles, Clock, ShieldCheck } from "lucide-react";
+import {
+    Brain,
+    TrendingUp,
+    AlertTriangle,
+    Package,
+    DollarSign,
+    Activity,
+    Calendar,
+    Download,
+    Eye,
+    ArrowRight,
+    ExternalLink,
+    Sparkles,
+    Clock,
+    ShieldCheck,
+    Check,
+    ChevronsUpDown,
+    Search,
+    X,
+    ChevronDown
+} from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -34,7 +54,6 @@ import {
     CommandList,
     CommandSeparator,
 } from "@/components/ui/command";
-import { Check, ChevronsUpDown, Search, X, ChevronDown } from "lucide-react";
 import {
     Table,
     TableBody,
@@ -43,6 +62,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
+import { InputSelect } from "@/components/ui/input-select";
 
 // Simple CN helper to avoid path issues
 function cn(...inputs: ClassValue[]) {
@@ -134,26 +154,10 @@ const MOCK_BRANCHES = [
 
 const AnalyticsPage = () => {
     const [selectedBranch, setSelectedBranch] = useState("all");
-    const [searchQuery, setSearchQuery] = useState("");
-    const [debouncedSearch, setDebouncedSearch] = useState("");
     const [isGenerating, setIsGenerating] = useState(false);
-    const [isPopoverOpen, setIsPopoverOpen] = useState(false);
     const [showAiAnalysis, setShowAiAnalysis] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState<any>(null);
     const [isDetailOpen, setIsDetailOpen] = useState(false);
-
-    // Simulate Debounce for 1000+ items efficiency
-    React.useEffect(() => {
-        const timer = setTimeout(() => {
-            setDebouncedSearch(searchQuery);
-        }, 300);
-        return () => clearTimeout(timer);
-    }, [searchQuery]);
-
-    // Filter branches using the debounced value
-    const filteredBranches = MOCK_BRANCHES.filter(b =>
-        b.label.toLowerCase().includes(debouncedSearch.toLowerCase())
-    );
 
     const handleGenerateAnalysis = () => {
         setIsGenerating(true);
@@ -181,109 +185,40 @@ const AnalyticsPage = () => {
                     </p>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
-                    <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
-                        <PopoverTrigger asChild>
-                            <Button
-                                variant="outline"
-                                role="combobox"
-                                aria-expanded={isPopoverOpen}
-                                className="w-[280px] justify-between h-10 px-0 bg-white border-slate-200 hover:bg-slate-50 transition-all font-medium overflow-hidden"
-                            >
-                                <div className="flex items-center justify-between w-full px-3">
-                                    <span className="truncate">
-                                        {selectedBranch
-                                            ? MOCK_BRANCHES.find((branch) => branch.value === selectedBranch)?.label
-                                            : "Pilih Cabang..."}
-                                    </span>
-                                    <div className="flex items-center gap-1 shrink-0">
-                                        {selectedBranch && selectedBranch !== "all" && (
-                                            <>
-                                                <X
-                                                    className="h-3.5 w-3.5 text-slate-400 hover:text-slate-600 transition-colors cursor-pointer"
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        setSelectedBranch("all");
-                                                    }}
-                                                />
-                                                <Separator orientation="vertical" className="h-4 bg-slate-200" />
-                                            </>
-                                        )}
-                                        <ChevronDown className="h-4 w-4 shrink-0 opacity-40" />
-                                    </div>
-                                </div>
-                            </Button>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0 shadow-xl border-slate-200 overflow-hidden rounded-xl" align="start">
-                            <Command shouldFilter={false} className="rounded-xl">
-                                <div className="p-3 border-b border-slate-50">
-                                    <div className="relative flex items-center border border-slate-200 rounded-lg bg-slate-50/50 px-3 focus-within:border-[#1E40AF]/30 transition-all">
-                                        <Search className="h-4 w-4 shrink-0 text-slate-400" />
-                                        <CommandInput
-                                            placeholder="Cari cabang..."
-                                            className="h-9 w-full bg-transparent border-none focus:ring-0 text-sm py-2"
-                                            value={searchQuery}
-                                            onValueChange={setSearchQuery}
-                                        />
-                                    </div>
-                                </div>
-                                <CommandList className="max-h-[220px] overflow-y-auto scrollbar-hide py-1">
-                                    <CommandEmpty className="py-6 text-xs text-slate-500 text-center">
-                                        Cabang tidak ditemukan.
-                                    </CommandEmpty>
-                                    <CommandGroup>
-                                        {filteredBranches.map((branch) => (
-                                            <CommandItem
-                                                key={branch.value}
-                                                value={branch.value}
-                                                onSelect={(currentValue) => {
-                                                    setSelectedBranch(currentValue === selectedBranch ? "all" : currentValue);
-                                                    setIsPopoverOpen(false);
-                                                }}
-                                                className="px-3 py-2.5 text-xs cursor-pointer hover:bg-slate-50 aria-selected:bg-blue-50 group flex items-center justify-between"
-                                            >
-                                                <span className={cn(
-                                                    "transition-colors",
-                                                    selectedBranch === branch.value ? "text-[#1E40AF] font-semibold" : "text-slate-600"
-                                                )}>
-                                                    {branch.label}
-                                                </span>
-                                                <Check
-                                                    className={cn(
-                                                        "h-3.5 w-3.5 text-[#1E40AF] transition-all",
-                                                        selectedBranch === branch.value ? "opacity-100 scale-100" : "opacity-0 scale-50"
-                                                    )}
-                                                />
-                                            </CommandItem>
-                                        ))}
-                                    </CommandGroup>
-                                </CommandList>
-                                <CommandSeparator className="h-[1px] bg-slate-100" />
-                                <div className="p-1.5 flex items-center gap-1.5 bg-slate-100/30">
-                                    {selectedBranch && selectedBranch !== "all" && (
-                                        <Button
-                                            variant="ghost"
-                                            size="sm"
-                                            onClick={() => {
+                    <InputSelect
+                        options={MOCK_BRANCHES}
+                        value={selectedBranch}
+                        onValueChange={setSelectedBranch}
+                        placeholder="Cari cabang..."
+                        emptyMessage="Cabang tidak ditemukan."
+                    >
+                        <Button
+                            variant="outline"
+                            role="combobox"
+                            className="w-[300px] justify-between h-10 px-3 bg-white border-slate-200 hover:bg-slate-50 transition-all font-medium overflow-hidden group/trigger"
+                        >
+                            <span className="truncate flex-1 text-left">
+                                {selectedBranch !== "all"
+                                    ? MOCK_BRANCHES.find((b) => b.value === selectedBranch)?.label
+                                    : "Semua Cabang (Global)"}
+                            </span>
+                            <div className="flex items-center gap-2 shrink-0 ml-2">
+                                {selectedBranch !== "all" && (
+                                    <>
+                                        <X
+                                            className="h-3.5 w-3.5 text-slate-400 hover:text-slate-600 transition-colors cursor-pointer"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
                                                 setSelectedBranch("all");
-                                                setIsPopoverOpen(false);
                                             }}
-                                            className="flex-1 h-8 text-[11px] font-medium text-slate-500 hover:text-red-600 hover:bg-red-50"
-                                        >
-                                            Reset Filter
-                                        </Button>
-                                    )}
-                                    <Button
-                                        variant="ghost"
-                                        size="sm"
-                                        onClick={() => setIsPopoverOpen(false)}
-                                        className="flex-1 h-8 text-[11px] font-medium text-slate-500 hover:bg-slate-100"
-                                    >
-                                        Tutup
-                                    </Button>
-                                </div>
-                            </Command>
-                        </PopoverContent>
-                    </Popover>
+                                        />
+                                        <Separator orientation="vertical" className="h-4 bg-slate-200" />
+                                    </>
+                                )}
+                                <ChevronDown className="h-4 w-4 shrink-0 opacity-40 group-hover/trigger:opacity-70 transition-opacity" />
+                            </div>
+                        </Button>
+                    </InputSelect>
                     <Button variant="outline" size="sm" className="font-semibold h-9 bg-white shadow-sm border-slate-200 text-slate-600">
                         <Calendar className="mr-2 h-4 w-4 text-slate-400" />
                         Januari 2026
@@ -706,30 +641,50 @@ const AnalyticsPage = () => {
                     </CardContent>
                 </Card>
 
-                <Card className="lg:col-span-8 shadow-sm border-[#E5E7EB]">
+                <Card className="lg:col-span-8 shadow-sm border-[#E5E7EB] hover:shadow-md transition-shadow">
                     <CardHeader className="pb-2 p-4">
-                        <CardTitle className="text-xs font-black uppercase tracking-widest text-gray-500">Distribusi Kesehatan Stok</CardTitle>
-                    </CardHeader>
-                    <CardContent className="p-4 pt-0">
-                        <div className="h-[80px] w-full">
-                            <ResponsiveContainer width="100%" height="100%">
-                                <BarChart data={MOCK_STOCK_HEALTH} layout="vertical">
-                                    <XAxis type="number" hide />
-                                    <YAxis dataKey="name" type="category" hide />
-                                    <Bar dataKey="value" radius={[6, 6, 6, 6]} barSize={16}>
-                                        {MOCK_STOCK_HEALTH.map((entry, index) => (
-                                            <Cell key={`cell-${index}`} fill={entry.fill} fillOpacity={0.9} />
-                                        ))}
-                                    </Bar>
-                                    <Tooltip cursor={{ fill: 'transparent' }} />
-                                </BarChart>
-                            </ResponsiveContainer>
+                        <div className="flex justify-between items-end">
+                            <div>
+                                <CardTitle className="text-xs font-black uppercase tracking-widest text-slate-500">Distribusi Kesehatan Stok</CardTitle>
+                                <CardDescription className="text-[10px] mt-1 font-medium">Status ketersediaan stok di seluruh lini produk (Real-time)</CardDescription>
+                            </div>
+                            <div className="text-right">
+                                <span className="text-2xl font-extrabold text-[#1E40AF]">1,030</span>
+                                <span className="text-[10px] block text-slate-400 font-bold uppercase tracking-widest">Total SKU</span>
+                            </div>
                         </div>
-                        <div className="flex justify-between items-center text-[9px] md:text-[10px] mt-2 text-muted-foreground uppercase font-black tracking-[0.15em] px-1">
-                            <div className="flex items-center gap-1.5"><div className="h-2 w-2 rounded-full bg-[#16A34A]" /> Aman</div>
-                            <div className="flex items-center gap-1.5"><div className="h-2 w-2 rounded-full bg-[#F59E0B]" /> Menipis</div>
-                            <div className="flex items-center gap-1.5"><div className="h-2 w-2 rounded-full bg-[#2563EB]" /> Berlebih</div>
-                            <div className="flex items-center gap-1.5"><div className="h-2 w-2 rounded-full bg-[#DC2626]" /> Risiko</div>
+                    </CardHeader>
+                    <CardContent className="p-4 pt-2">
+                        {/* Custom Stacked Progress Bar */}
+                        <div className="h-3 w-full flex rounded-full overflow-hidden bg-slate-100 shadow-inner mb-6 mt-2">
+                            {MOCK_STOCK_HEALTH.map((item, idx) => (
+                                <div
+                                    key={idx}
+                                    style={{ width: `${(item.value / 1030) * 100}%`, backgroundColor: item.fill }}
+                                    className="h-full transition-all hover:scale-y-110 hover:z-10 cursor-alias"
+                                />
+                            ))}
+                        </div>
+
+                        {/* Enhanced Informative Legend */}
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 p-4 bg-slate-50/50 rounded-xl border border-slate-100">
+                            {MOCK_STOCK_HEALTH.map((item, idx) => (
+                                <div key={idx} className="space-y-1.5 group">
+                                    <div className="flex items-center gap-2">
+                                        <div className="h-2.5 w-2.5 rounded-full shadow-sm group-hover:scale-125 transition-transform" style={{ backgroundColor: item.fill }} />
+                                        <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.1em]">{item.name}</span>
+                                    </div>
+                                    <div className="flex items-baseline gap-1.5">
+                                        <span className="text-xl font-black text-slate-900">{item.value.toLocaleString()}</span>
+                                        <span className="text-[10px] font-bold text-slate-400">({((item.value / 1030) * 100).toFixed(1)}%)</span>
+                                    </div>
+                                    <div className="text-[9px] text-slate-400 font-medium group-hover:text-slate-600 transition-colors">
+                                        {item.name === "Aman" ? "Stok mencukupi" :
+                                            item.name === "Menipis" ? "Perlu restok" :
+                                                item.name === "Berlebih" ? "Slow moving" : "Risiko Expired"}
+                                    </div>
+                                </div>
+                            ))}
                         </div>
                     </CardContent>
                 </Card>
