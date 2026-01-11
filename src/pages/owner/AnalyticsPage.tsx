@@ -205,13 +205,20 @@ const AnalyticsPage = () => {
                             <div className="flex items-center gap-2 shrink-0 ml-2">
                                 {selectedBranch !== "all" && (
                                     <>
-                                        <X
-                                            className="h-3.5 w-3.5 text-slate-400 hover:text-slate-600 transition-colors cursor-pointer"
+                                        <button
+                                            type="button"
+                                            className="h-7 w-7 flex items-center justify-center -mr-1 hover:bg-slate-100/80 rounded-full transition-colors group/x relative z-20"
                                             onClick={(e) => {
+                                                e.preventDefault();
                                                 e.stopPropagation();
                                                 setSelectedBranch("all");
                                             }}
-                                        />
+                                            onPointerDown={(e) => {
+                                                e.stopPropagation();
+                                            }}
+                                        >
+                                            <X className="h-3.5 w-3.5 text-slate-400 group-hover/x:text-slate-600 transition-colors" />
+                                        </button>
                                         <Separator orientation="vertical" className="h-4 bg-slate-200" />
                                     </>
                                 )}
